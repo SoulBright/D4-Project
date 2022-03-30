@@ -1,0 +1,45 @@
+{% extends 'NewsPortal/default.html' %}
+
+{% load custom_filters %}
+
+{% block title %} Posts {% endblock title %}
+
+{% block content %}
+    <h1>Все новости</h1>
+    <h3> В данный момент доступно новостей: {{ posts|length }} </h3>
+    <hr>
+    {% if posts %}
+        <table>
+            <tr>
+                <td>
+                    Заголовок:
+                </td>
+                <td>
+                    Дата публикации:
+                </td>
+                <td>
+                    Превью:
+                </td>
+            </tr>
+        {% for post in posts %}
+            <tr>
+                <td>
+                    {{ post.title|Censor }}
+                </td>
+                <td>
+                    {{ post.dateCreation|date:'d M Y' }}
+                </td>
+                <td>
+                    {{ post.text|truncatechars:50|Censor }}
+                </td>
+            </tr>
+        {% endfor %}
+        </table>
+    {% else %}
+        <h2>Новостей нет!</h2>
+    {% endif %}
+
+<form method="POST">
+    {% csrf_token %}
+    <input type="submit" value="подтвердить"></form>
+{% endblock content %}
